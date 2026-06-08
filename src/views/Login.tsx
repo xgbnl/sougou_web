@@ -248,7 +248,6 @@ const Login = ({ mode }: { mode: SystemMode }) => {
             <Button fullWidth variant='contained' type='submit'>
               登录
             </Button>
-            <Divider className='gap-2'>or</Divider>
           </form>
         </div>
       </div>

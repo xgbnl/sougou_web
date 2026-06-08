@@ -24,7 +24,7 @@ import type { Locale } from '@/configs/i18n'
 import { serializeDate } from '@/utils/carbon'
 
 type CustomInputProps = TextFieldProps & {
-  label: string
+  label?: string
   end: Date
   start: Date
 }
@@ -42,7 +42,7 @@ const TextField = (props: { dateFormat: string } & CustomInputProps) => {
 
 type Props = {
   onChange: (date: Pick<CustomInputProps, 'end' | 'start'>, format: string[]) => void
-} & Partial<CustomInputProps>
+} & Partial<Omit<CustomInputProps, 'onChange'>>
 
 const DateRange = ({ label, onChange, start, end }: Props) => {
   // States
@@ -82,7 +82,7 @@ const DateRange = ({ label, onChange, start, end }: Props) => {
       customInput={
         <TextField
           dateFormat={dateFormat}
-          label={label ?? 'Multiple Months'}
+          label={label}
           end={endDateRange as Date}
           start={startDateRange as Date}
           slotProps={{

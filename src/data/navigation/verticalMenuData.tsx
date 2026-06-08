@@ -7,6 +7,16 @@ const verticalMenuData = (dictionary: Awaited<ReturnType<typeof getDictionary>>)
     label: dictionary['navigation'].dashboard,
     href: `/${dictionary['locale']}/dashboard`,
     icon: 'tabler-dashboard'
+  },
+  {
+    label: dictionary['navigation'].userManagement,
+    href: `/${dictionary['locale']}/users`,
+    icon: 'tabler-users'
+  },
+  {
+    label: dictionary['navigation'].leadCenter,
+    href: `/${dictionary['locale']}/marketing-leads`,
+    icon: 'tabler-address-book'
   }
 ]
 

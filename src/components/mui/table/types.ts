@@ -4,7 +4,7 @@ import type { ReactNode, ReactElement } from 'react'
 export type Order = 'asc' | 'desc'
 
 export type Row = {
-  id: number
+  id: number | string
   actions?: unknown
 } & Record<string, unknown>
 

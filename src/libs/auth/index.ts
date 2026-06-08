@@ -29,7 +29,7 @@ const nextConfig: NextAuthConfig = {
       authorize: async (
         credentials: Partial<Record<'username' | 'password' | 'redirect' | 'callbackUrl' | 'csrfToken', unknown>>
       ): Promise<User | null | never> => {
-        const promise = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/auth/login`, {
+        const promise = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/login`, {
           method: 'POST',
           headers: {
             Accept: 'application/json'

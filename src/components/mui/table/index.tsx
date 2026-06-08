@@ -141,7 +141,7 @@ export default function MuiTable<T extends Row>(props: MuiTableProps<T>) {
     setRowsPerPage(perPage)
     setPage(0)
 
-    onPageChange(page, perPage)
+    onPageChange(1, perPage)
   }
 
   const handleDelete = (): void => {
