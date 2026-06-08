@@ -10,7 +10,7 @@ import { post } from '@/libs/http/next'
 export async function POST(req: Request) {
   const credentials = await req.json()
 
-  const response = await post<User>('/auth', { body: credentials })
+  const response = await post<User>('/auth/login', { body: credentials })
 
   return NextResponse.json(response.body())
 }

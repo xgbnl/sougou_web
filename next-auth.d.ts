@@ -5,12 +5,13 @@ import type { User } from 'next-auth'
 
 interface Authenticatable {
   token?: string
+  role: 'admin' | 'viewer'
 }
 
 declare module 'next-auth' {
-  interface User extends Authenticatable { }
+  interface User extends Authenticatable {}
 }
 
 declare module 'next-auth/jwt' {
-  interface JWT extends User { }
+  interface JWT extends User {}
 }

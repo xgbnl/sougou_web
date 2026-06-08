@@ -23,13 +23,13 @@ const nextConfig: NextAuthConfig = {
   providers: [
     Credentials({
       credentials: {
-        email: { label: 'Email', type: 'text' },
+        username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' }
       },
       authorize: async (
-        credentials: Partial<Record<'email' | 'password' | 'redirect' | 'callbackUrl' | 'csrfToken', unknown>>
+        credentials: Partial<Record<'username' | 'password' | 'redirect' | 'callbackUrl' | 'csrfToken', unknown>>
       ): Promise<User | null | never> => {
-        const promise = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/login`, {
+        const promise = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/auth/login`, {
           method: 'POST',
           headers: {
             Accept: 'application/json'
@@ -94,6 +94,7 @@ const nextConfig: NextAuthConfig = {
         token.name = user.name
         token.image = user.image
         token.token = user.token
+        token.role = user.role
       }
 
       return token
@@ -104,6 +105,7 @@ const nextConfig: NextAuthConfig = {
         session.user.name = token.name
         session.user.image = token.image
         session.user.token = token.token
+        session.user.role = token.role
       }
 
       return session
