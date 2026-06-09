@@ -30,7 +30,6 @@ import type { MarketingLeadQueryInputData, MarketingLeadOutputData } from '@/typ
 import type { Row, TableHeadCell } from '@components/mui/table/types'
 
 const headCells: TableHeadCell<MarketingLeadOutputData & Row>[] = [
-  { disablePadding: false, id: 'id', label: 'ID', numeric: false },
   { disablePadding: false, id: 'siteName', label: '落地页名称', numeric: false },
   { disablePadding: false, id: 'customerName', label: '客户姓名', numeric: false },
   { disablePadding: false, id: 'customerTel', label: '客户手机号', numeric: false },
