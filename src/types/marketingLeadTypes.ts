@@ -16,7 +16,10 @@ export type MarketingLeadOutputData = BaseOutputData & {
   adKeyword: string
 }
 
-export type MarketingLeadStoreInputData = Omit<MarketingLeadOutputData, 'id'>
+export type MarketingLeadImportInputData = {
+  file: File
+  accountIds: number[]
+}
 
 export type MarketingLeadStatsOutputData = {
   totalLeads: number

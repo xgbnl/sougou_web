@@ -55,7 +55,7 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'Vuexy',
+  templateName: '推广线索管理平台',
   homePageUrl: '/:lang/dashboard',
   settingsCookieName: 'sou-gou',
   mode: 'system', // 'system', 'light', 'dark'

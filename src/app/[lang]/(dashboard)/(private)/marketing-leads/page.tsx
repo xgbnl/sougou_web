@@ -16,7 +16,7 @@ import type { MarketingLeadOutputData } from '@/types/marketingLeadTypes'
 const getMarketingLeadPageListForServer = async (): Promise<ResponseInterface<OutPutPort<MarketingLeadOutputData>>> => {
   return get('marketing-leads', {
     params: {
-      perPage: 10,
+      perPage: 100,
       page: 1
     }
   })

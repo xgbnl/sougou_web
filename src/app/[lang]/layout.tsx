@@ -25,9 +25,8 @@ import '@/app/globals.css'
 import '@assets/iconify-icons/generated-icons.css'
 
 export const metadata = {
-  title: 'MUI Next.js Admin Dashboard Template',
-  description:
-    'MUI Next.js Admin Dashboard Template - is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.'
+  title: '推广线索管理平台',
+  description: '推广线索管理平台'
 }
 
 const RootLayout = async (props: ChildrenType & { params: Promise<{ lang: string }> }) => {

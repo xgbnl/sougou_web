@@ -8,12 +8,14 @@ import type { ReactElement } from 'react'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
 
 // Component Imports
 import MuiTable from '@components/mui/table'
 import OpenDialogOnElementClick from '@/components/dialogs/OpenDialogOnElementClick'
 import CreateUserDialog from './CreateUserDialog'
 import AssignAccountsDialog from './AssignAccountsDialog'
+import ResetPasswordDialog from './ResetPasswordDialog'
 
 // Action Imports
 import { fetchUserList } from '@/actions/userActions'
@@ -34,19 +36,34 @@ const headCells: TableHeadCell<UserOutputData & Row>[] = [
     label: '操作',
     numeric: false,
     action: (row): ReactElement => (
-      <OpenDialogOnElementClick
-        element={Button}
-        elementProps={{
-          size: 'small',
-          children: '分配线索账户',
-          startIcon: <i className='tabler-link' />
-        }}
-        dialog={AssignAccountsDialog}
-        dialogProps={{
-          closeAfterTransition: true,
-          userId: row.id
-        }}
-      />
+      <Stack direction='row' spacing={2}>
+        <OpenDialogOnElementClick
+          element={Button}
+          elementProps={{
+            size: 'small',
+            children: '分配线索账户',
+            startIcon: <i className='tabler-link' />
+          }}
+          dialog={AssignAccountsDialog}
+          dialogProps={{
+            closeAfterTransition: true,
+            userId: row.id
+          }}
+        />
+        <OpenDialogOnElementClick
+          element={Button}
+          elementProps={{
+            size: 'small',
+            children: '重置密码',
+            startIcon: <i className='tabler-key' />
+          }}
+          dialog={ResetPasswordDialog}
+          dialogProps={{
+            closeAfterTransition: true,
+            userId: row.id
+          }}
+        />
+      </Stack>
     )
   }
 ]

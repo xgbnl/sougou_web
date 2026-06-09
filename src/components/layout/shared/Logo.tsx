@@ -30,7 +30,7 @@ type LogoTextProps = {
 
 const LogoText = styled.span<LogoTextProps>`
   color: ${({ color }) => color ?? 'var(--mui-palette-text-primary)'};
-  font-size: 1.375rem;
+  font-size: 1.175rem;
   line-height: 1.09091;
   font-weight: 700;
   letter-spacing: 0.25px;

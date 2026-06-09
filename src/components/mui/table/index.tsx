@@ -77,7 +77,7 @@ export default function MuiTable<T extends Row>(props: MuiTableProps<T>) {
   const [orderBy, setOrderBy] = useState<keyof T>(sortBy)
   const [selected, setSelected] = useState<T[]>([])
   const [page, setPage] = useState<number>(0)
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10)
+  const [rowsPerPage, setRowsPerPage] = useState<number>(rowsPerPageOptions?.[0] ?? 10)
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const totalPages = Math.ceil(total / rowsPerPage)

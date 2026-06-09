@@ -25,3 +25,9 @@ export type UserAccountsInputData = {
   id: number | string
   accountIds: number[]
 }
+
+export type UserResetPasswordInputData = {
+  id: number | string
+  password: string
+  passwordConfirmation: string
+}

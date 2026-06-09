@@ -8,7 +8,8 @@ import type {
   UserOutputData,
   UserStoreOutputData,
   UserAccountsOutputData,
-  UserAccountsInputData
+  UserAccountsInputData,
+  UserResetPasswordInputData
 } from '@/types/userTypes'
 
 /**
@@ -52,5 +53,21 @@ export const syncUserAccounts = async ({
   return patch('users/:id/accounts', {
     pathVariables: { id },
     body: { accountIds }
+  })
+}
+
+/**
+ * 重置用户密码
+ * @param input
+ * @returns
+ */
+export const resetUserPassword = async ({
+  id,
+  password,
+  passwordConfirmation
+}: UserResetPasswordInputData): Promise<ResponseInterface<null>> => {
+  return patch('users/:id', {
+    pathVariables: { id },
+    body: { password, passwordConfirmation }
   })
 }

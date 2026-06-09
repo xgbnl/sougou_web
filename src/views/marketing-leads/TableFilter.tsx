@@ -4,17 +4,12 @@
 import { useState } from 'react'
 import type { ReactElement } from 'react'
 
-// NextAuth Imports
-import { useSession } from 'next-auth/react'
-
 // MUI Imports
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 
 // Component Imports
 import DateRange from '@components/mui/date-range'
-import OpenDialogOnElementClick from '@/components/dialogs/OpenDialogOnElementClick'
-import CreateMarketingLeadDialog from './CreateMarketingLeadDialog'
 
 // Type Imports
 import type { QueryHandler } from '@/types/queryTypes'
@@ -26,31 +21,10 @@ type Props = {
 }
 
 const TableFilter = ({ query, queryHandler }: Props): ReactElement => {
-  const { data: session } = useSession()
   const [dateRange, setDateRange] = useState<Pick<MarketingLeadQueryInputData, 'startDate' | 'endDate'>>({})
-  const canCreate = session?.user?.role === 'admin'
 
   return (
     <Grid container spacing={4}>
-      {canCreate ? (
-        <Grid spacing={3} alignContent='flex-end'>
-          <OpenDialogOnElementClick
-            element={Button}
-            elementProps={{
-              variant: 'contained',
-              children: '添加数据',
-              startIcon: <i className='tabler-plus' />
-            }}
-            dialog={CreateMarketingLeadDialog}
-            dialogProps={{
-              closeAfterTransition: true,
-              refresh: (): void => {
-                void queryHandler({ ...query, ...dateRange, page: 1 })
-              }
-            }}
-          />
-        </Grid>
-      ) : null}
       <Grid spacing={3} alignContent='flex-end'>
         <DateRange
           onChange={(_, [startDate, endDate]): void => {
