@@ -8,11 +8,17 @@ export type MarketingLeadQueryInputData = {
 } & BaseQueryParams
 
 export type MarketingLeadOutputData = BaseOutputData & {
-  campaignId: number
-  campaignName: string
-  groupName: string
-  groupId: string
-  gender: string
-  phone: string
   createTime: string
+  siteName: string
+  customerName: string
+  customerTel: string
+  adSearchWord: string
+  adKeyword: string
+}
+
+export type MarketingLeadStoreInputData = Omit<MarketingLeadOutputData, 'id'>
+
+export type MarketingLeadStatsOutputData = {
+  totalLeads: number
+  todayLeads: number
 }

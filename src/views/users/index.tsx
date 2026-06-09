@@ -13,6 +13,7 @@ import Grid from '@mui/material/Grid'
 import MuiTable from '@components/mui/table'
 import OpenDialogOnElementClick from '@/components/dialogs/OpenDialogOnElementClick'
 import CreateUserDialog from './CreateUserDialog'
+import AssignAccountsDialog from './AssignAccountsDialog'
 
 // Action Imports
 import { fetchUserList } from '@/actions/userActions'
@@ -26,7 +27,28 @@ const headCells: TableHeadCell<UserOutputData & Row>[] = [
   { disablePadding: false, id: 'id', label: 'ID', numeric: false },
   { disablePadding: false, id: 'username', label: '用户名', numeric: false },
   { disablePadding: false, id: 'description', label: '账号描述', numeric: false },
-  { disablePadding: false, id: 'createdAt', label: '创建时间', numeric: false }
+  { disablePadding: false, id: 'createdAt', label: '创建时间', numeric: false },
+  {
+    disablePadding: false,
+    id: 'actions',
+    label: '操作',
+    numeric: false,
+    action: (row): ReactElement => (
+      <OpenDialogOnElementClick
+        element={Button}
+        elementProps={{
+          size: 'small',
+          children: '分配线索账户',
+          startIcon: <i className='tabler-link' />
+        }}
+        dialog={AssignAccountsDialog}
+        dialogProps={{
+          closeAfterTransition: true,
+          userId: row.id
+        }}
+      />
+    )
+  }
 ]
 
 const UsersPage = (props: OutPutPort<UserOutputData>): ReactElement => {

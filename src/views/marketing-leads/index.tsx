@@ -4,7 +4,6 @@
 import { useState } from 'react'
 import type { ReactElement } from 'react'
 
-// MUI Imports
 import Card from '@mui/material/Card'
 
 // Component Imports
@@ -21,12 +20,11 @@ import type { Row, TableHeadCell } from '@components/mui/table/types'
 
 const headCells: TableHeadCell<MarketingLeadOutputData & Row>[] = [
   { disablePadding: false, id: 'id', label: 'ID', numeric: false },
-  { disablePadding: false, id: 'campaignName', label: '推广计划名称', numeric: false },
-  { disablePadding: false, id: 'campaignId', label: '推广计划ID', numeric: false },
-  { disablePadding: false, id: 'groupName', label: '推广组名称', numeric: false },
-  { disablePadding: false, id: 'groupId', label: '推广组ID', numeric: false },
-  { disablePadding: false, id: 'gender', label: '性别', numeric: false },
-  { disablePadding: false, id: 'phone', label: '手机号', numeric: false },
+  { disablePadding: false, id: 'siteName', label: '落地页名称', numeric: false },
+  { disablePadding: false, id: 'customerName', label: '客户姓名', numeric: false },
+  { disablePadding: false, id: 'customerTel', label: '客户手机号', numeric: false },
+  { disablePadding: false, id: 'adSearchWord', label: '搜索词', numeric: false },
+  { disablePadding: false, id: 'adKeyword', label: '关键词', numeric: false },
   { disablePadding: false, id: 'createTime', label: '线索记录时间', numeric: false }
 ]
 
@@ -59,7 +57,7 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
         headCells={headCells}
         slotProps={{
           slot: () => '线索列表',
-          filter: (): ReactElement => <TableFilter queryHandler={queryHandler} />
+          filter: (): ReactElement => <TableFilter query={query} queryHandler={queryHandler} />
         }}
       />
     </Card>

@@ -1,10 +1,15 @@
 // Lib Imports
-import { get, post } from '@/libs/http/react'
+import { get, post, patch } from '@/libs/http/react'
 import type { ResponseInterface } from '@/libs/http/types'
 
 // Type Imports
 import type { OutPutPort, BaseQueryParams } from '@/types/queryTypes'
-import type { UserOutputData, UserStoreOutputData } from '@/types/userTypes'
+import type {
+  UserOutputData,
+  UserStoreOutputData,
+  UserAccountsOutputData,
+  UserAccountsInputData
+} from '@/types/userTypes'
 
 /**
  * 获取用户列表
@@ -24,4 +29,28 @@ export const fetchUserList = async (
  */
 export const createUser = async (input: UserStoreOutputData): Promise<ResponseInterface<null>> => {
   return post('users', { body: input })
+}
+
+/**
+ * 获取用户可分配线索账户
+ * @param id
+ * @returns
+ */
+export const fetchUserAccounts = async (id: number | string): Promise<ResponseInterface<UserAccountsOutputData>> => {
+  return get('users/:id/accounts', { pathVariables: { id } })
+}
+
+/**
+ * 保存用户线索账户分配
+ * @param input
+ * @returns
+ */
+export const syncUserAccounts = async ({
+  id,
+  accountIds
+}: UserAccountsInputData): Promise<ResponseInterface<null>> => {
+  return patch('users/:id/accounts', {
+    pathVariables: { id },
+    body: { accountIds }
+  })
 }

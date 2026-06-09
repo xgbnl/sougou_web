@@ -8,3 +8,20 @@ export type UserOutputData = {
 } & BaseOutputData
 
 export type UserStoreOutputData = Pick<UserOutputData, 'description' | 'username'> & { password: string }
+
+export type UserAssignableAccount = {
+  id: number
+  username: string
+  eId: string
+  userid: number
+}
+
+export type UserAccountsOutputData = {
+  accounts: UserAssignableAccount[]
+  selectedIds: number[]
+}
+
+export type UserAccountsInputData = {
+  id: number | string
+  accountIds: number[]
+}
