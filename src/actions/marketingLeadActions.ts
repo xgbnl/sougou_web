@@ -4,7 +4,7 @@ import type { ResponseInterface } from '@/libs/http/types'
 
 // Type Imports
 import type { OutPutPort } from '@/types/queryTypes'
-import type { MarketingLeadListQueryInputData, MarketingLeadOutputData } from '@/types/marketingLeadTypes'
+import type { MarketingLeadQueryInputData, MarketingLeadOutputData } from '@/types/marketingLeadTypes'
 
 /**
  * 获取线索列表
@@ -12,7 +12,7 @@ import type { MarketingLeadListQueryInputData, MarketingLeadOutputData } from '@
  * @returns
  */
 export const fetchMarketingLeadList = async (
-  params: MarketingLeadListQueryInputData
+  params: MarketingLeadQueryInputData
 ): Promise<ResponseInterface<OutPutPort<MarketingLeadOutputData>>> => {
   return get('marketing-leads', { params })
 }

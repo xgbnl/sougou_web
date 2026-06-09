@@ -2,7 +2,7 @@
 import type { BaseQueryParams } from './queryTypes'
 import type { BaseOutputData } from './entityTypes'
 
-export type MarketingLeadListQueryInputData = {
+export type MarketingLeadQueryInputData = {
   startDate?: string
   endDate?: string
 } & BaseQueryParams

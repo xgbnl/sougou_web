@@ -16,7 +16,7 @@ import type { Option } from '@/types/option'
 type Props<T> = {
   items: Option<T>[]
   value: T
-  label: string
+  label?: string
   onChange: (value: T) => void
 } & Pick<BaseSelectProps, 'multiple'> &
   Pick<BaseTextFieldProps, 'id'>

@@ -10,37 +10,42 @@ import DialogActions from '@mui/material/DialogActions'
 import Grid from '@mui/material/Grid'
 
 // Third-party Imports
-import { useForm, type SubmitHandler } from 'react-hook-form'
+import { useForm, useWatch, type SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 // Component Imports
 import DialogCloseButton from '@/components/dialogs/DialogCloseButton'
 import CustomTextField from '@/@core/components/mui/TextField'
+import EnumRadio from '@/components/mui/enum-radio'
 
 // Action Imports
-import { createUser } from '@/actions/userActions'
+import { createAccount } from '@/actions/accountActions'
 
 // Type Imports
 import type { OpenDialogOnElementClickBaseProps } from '@/components/dialogs/OpenDialogOnElementClick'
-import type { UserStoreOutputData } from '@/types/userTypes'
+import { AccountStatus, type AccountStoreInputData } from '@/types/accountTypes'
 
 type Props = OpenDialogOnElementClickBaseProps & {
   refresh: () => void
 }
 
-const initialData: UserStoreOutputData = {
-  description: '',
+const initialData: AccountStoreInputData = {
   username: '',
-  password: ''
+  eId: '',
+  userid: 0,
+  secret: '',
+  status: AccountStatus.ENABLED
 }
 
-const CreateUserDialog = ({ open, setOpen, closeAfterTransition = false, refresh }: Props) => {
+const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refresh }: Props) => {
   const {
     register,
+    setValue,
+    control,
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<UserStoreOutputData>({
+  } = useForm<AccountStoreInputData>({
     defaultValues: initialData
   })
 
@@ -49,8 +54,8 @@ const CreateUserDialog = ({ open, setOpen, closeAfterTransition = false, refresh
     setOpen(false)
   }
 
-  const onSubmit: SubmitHandler<UserStoreOutputData> = async (data): Promise<void> => {
-    const res = await createUser(data)
+  const onSubmit: SubmitHandler<AccountStoreInputData> = async (data): Promise<void> => {
+    const res = await createAccount(data)
 
     if (!res.whenFailureRedirect().failed()) {
       toast.success<string>(res.body().msg, {
@@ -66,7 +71,7 @@ const CreateUserDialog = ({ open, setOpen, closeAfterTransition = false, refresh
   return (
     <Dialog
       onClose={handleClose}
-      aria-labelledby='create-user-dialog-title'
+      aria-labelledby='create-account-dialog-title'
       open={open}
       closeAfterTransition={closeAfterTransition}
       slotProps={{
@@ -75,9 +80,9 @@ const CreateUserDialog = ({ open, setOpen, closeAfterTransition = false, refresh
         }
       }}
     >
-      <DialogTitle id='create-user-dialog-title'>
+      <DialogTitle id='create-account-dialog-title'>
         <Typography variant='h5' component='span'>
-          新建用户
+          创建账户
         </Typography>
         <DialogCloseButton onClick={handleClose} disableRipple>
           <i className='tabler-x' />
@@ -99,20 +104,42 @@ const CreateUserDialog = ({ open, setOpen, closeAfterTransition = false, refresh
             <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
-                label='账号描述'
-                placeholder='请输入账号描述'
-                {...register('description', { required: true })}
-                {...(errors.description && { error: true, helperText: '账号描述不能为空' })}
+                label='点睛id'
+                placeholder='请输入点睛id'
+                {...register('eId', { required: true })}
+                {...(errors.eId && { error: true, helperText: '点睛id不能为空' })}
               />
             </Grid>
             <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
-                type='password'
-                label='密码'
-                placeholder='请输入密码'
-                {...register('password', { required: true })}
-                {...(errors.password && { error: true, helperText: '密码不能为空' })}
+                type='number'
+                label='UserId'
+                placeholder='请输入UserId'
+                helperText={errors.userid ? 'UserId不能为空' : '用于接口调用'}
+                {...register('userid', { required: true, valueAsNumber: true })}
+                {...(errors.userid && { error: true })}
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <CustomTextField
+                fullWidth
+                label='secret'
+                placeholder='请输入secret'
+                helperText={errors.secret ? 'secret不能为空' : '用于接口调用'}
+                {...register('secret', { required: true })}
+                {...(errors.secret && { error: true })}
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <EnumRadio
+                label='状态'
+                options={[
+                  { label: '启用', value: AccountStatus.ENABLED },
+                  { label: '禁用', value: AccountStatus.DISABLED }
+                ]}
+                value={useWatch({ control, name: 'status' })}
+                onChange={(value): void => setValue('status', Number(value))}
               />
             </Grid>
           </Grid>
@@ -130,4 +157,4 @@ const CreateUserDialog = ({ open, setOpen, closeAfterTransition = false, refresh
   )
 }
 
-export default CreateUserDialog
+export default CreateAccountDialog

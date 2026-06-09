@@ -25,7 +25,7 @@ import type { Row, TableHeadCell } from '@components/mui/table/types'
 const headCells: TableHeadCell<UserOutputData & Row>[] = [
   { disablePadding: false, id: 'id', label: 'ID', numeric: false },
   { disablePadding: false, id: 'username', label: '用户名', numeric: false },
-  { disablePadding: false, id: 'displayName', label: '显示名称', numeric: false },
+  { disablePadding: false, id: 'description', label: '账号描述', numeric: false },
   { disablePadding: false, id: 'createdAt', label: '创建时间', numeric: false }
 ]
 
@@ -55,7 +55,8 @@ const UsersPage = (props: OutPutPort<UserOutputData>): ReactElement => {
         sortBy='id'
         headCells={headCells}
         slotProps={{
-          slot: (): ReactElement => {
+          slot: () => '用户列表',
+          filter: (): ReactElement => {
             return (
               <Grid container spacing={4}>
                 <Grid spacing={3} alignContent='flex-end'>

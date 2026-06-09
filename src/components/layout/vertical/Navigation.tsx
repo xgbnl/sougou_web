@@ -61,7 +61,7 @@ const Navigation = (props: Props) => {
   const theme = useTheme()
 
   // Refs
-  const shadowRef = useRef(null)
+  const shadowRef = useRef<HTMLDivElement | null>(null)
 
   // Vars
   const { isCollapsed, isHovered, collapseVerticalNav, isBreakpointReached } = verticalNavOptions
@@ -71,17 +71,25 @@ const Navigation = (props: Props) => {
 
   const isDark = currentMode === 'dark'
 
-  const scrollMenu = (container: any, isPerfectScrollbar: boolean) => {
-    container = isBreakpointReached || !isPerfectScrollbar ? container.target : container
+  const scrollMenu = (container: HTMLElement | { target: EventTarget | null }, isPerfectScrollbar: boolean) => {
+    const scrollContainer =
+      isBreakpointReached || !isPerfectScrollbar
+        ? 'target' in container && container.target instanceof HTMLElement
+          ? container.target
+          : null
+        : container instanceof HTMLElement
+          ? container
+          : null
 
-    if (shadowRef && container.scrollTop > 0) {
-      // @ts-ignore
+    if (!shadowRef.current || !scrollContainer) {
+      return
+    }
+
+    if (scrollContainer.scrollTop > 0) {
       if (!shadowRef.current.classList.contains('scrolled')) {
-        // @ts-ignore
         shadowRef.current.classList.add('scrolled')
       }
     } else {
-      // @ts-ignore
       shadowRef.current.classList.remove('scrolled')
     }
   }

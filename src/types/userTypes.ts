@@ -2,9 +2,9 @@
 import type { BaseOutputData } from './entityTypes'
 
 export type UserOutputData = {
-  displayName: string
+  description: string
   username: string
   createdAt: string
 } & BaseOutputData
 
-export type UserStoreOutputData = Pick<UserOutputData, 'displayName' | 'username'> & { password: string }
+export type UserStoreOutputData = Pick<UserOutputData, 'description' | 'username'> & { password: string }
