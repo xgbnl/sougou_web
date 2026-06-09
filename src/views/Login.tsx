@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
 
 import type { SubmitHandler } from 'react-hook-form'
 
@@ -37,7 +36,6 @@ import Logo from '@components/layout/shared/Logo'
 import CustomTextField from '@core/components/mui/TextField'
 
 // Config Imports
-import themeConfig from '@configs/themeConfig'
 import { HttpStatus } from '@/libs/http/types'
 
 // Hook Imports
@@ -78,12 +76,8 @@ type ErrorType = {
 type FormData = InferInput<typeof schema>
 
 const schema = object({
-  username: pipe(string(), minLength(1, 'This field is required')),
-  password: pipe(
-    string(),
-    nonEmpty('This field is required'),
-    minLength(6, 'Password must be at least 5 characters long')
-  )
+  username: pipe(string(), minLength(1, '账号不能为空')),
+  password: pipe(string(), nonEmpty('密码不能为空'), minLength(6, '密码至少6位'))
 })
 
 const Login = ({ mode }: { mode: SystemMode }) => {
@@ -178,8 +172,8 @@ const Login = ({ mode }: { mode: SystemMode }) => {
         </div>
         <div className='flex flex-col gap-6 is-full sm:is-auto md:is-full sm:max-is-[400px] md:max-is-[unset] mbs-8 sm:mbs-11 md:mbs-0'>
           <div className='flex flex-col gap-1'>
-            <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</Typography>
-            <Typography>Please sign-in to your account and start the adventure</Typography>
+            <Typography variant='h4'>{`欢迎使用推广线索管理平台 👋🏻`}</Typography>
+            <Typography>请登录您的账号开始体验</Typography>
           </div>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
             <Controller
@@ -216,7 +210,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
                   {...field}
                   fullWidth
                   label='密码'
-                  placeholder='············'
+                  placeholder='请输入密码'
                   id='login-password'
                   type={isPasswordShown ? 'text' : 'password'}
                   onChange={e => {

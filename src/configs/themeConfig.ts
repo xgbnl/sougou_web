@@ -55,9 +55,9 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'Next',
+  templateName: 'Vuexy',
   homePageUrl: '/:lang/dashboard',
-  settingsCookieName: 'Next-mui-next-demo-1',
+  settingsCookieName: 'sou-gou',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false
