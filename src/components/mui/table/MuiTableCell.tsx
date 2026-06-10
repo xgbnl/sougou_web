@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 
 // MUI Imports
 import TableCell from '@mui/material/TableCell'
+import Typography from '@mui/material/Typography'
 
 // Util Imports
 import { isPlainObject } from '@/utils/isPlainObject'
@@ -15,13 +16,23 @@ type Props<T extends Row> = {
   row: T
 }
 
+function isEmptyValue(value: unknown): boolean {
+  return value === null || value === undefined || value === ''
+}
+
 function render<T extends Row>(headCell: TableHeadCell<T>, row: T): ReactNode {
+  const emptyText = <Typography>-</Typography>
+
   if (typeof headCell.format === 'function') {
-    return headCell.format(row)
+    const value = headCell.format(row)
+
+    return isEmptyValue(value) ? emptyText : value
   }
 
   if (typeof headCell.action === 'function') {
-    return headCell.action(row)
+    const value = headCell.action(row)
+
+    return isEmptyValue(value) ? emptyText : value
   }
 
   const value = row[headCell.id]
@@ -32,7 +43,7 @@ function render<T extends Row>(headCell: TableHeadCell<T>, row: T): ReactNode {
     )
   }
 
-  return value as ReactNode
+  return isEmptyValue(value) ? emptyText : (value as ReactNode)
 }
 
 export default function MuiTableCell<T extends Row>(props: Props<T>): ReactNode {

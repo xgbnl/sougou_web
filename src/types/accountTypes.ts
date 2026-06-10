@@ -8,16 +8,23 @@ export const enum AccountStatus {
   ENABLED = 1
 }
 
+export const enum AccountChannel {
+  QI_HU = 'qihu',
+  BAIDU = 'baidu'
+}
+
 export type AccountStoreInputData = {
+  channel: AccountChannel
   username: string
-  eId: string
-  userid: number
-  secret: string
+  eId?: string
+  userid?: number
+  secret?: string
   status?: AccountStatus
 }
 
 export type AccountOutputData = BaseOutputData &
-  Omit<AccountStoreInputData, 'status'> & {
+  Omit<AccountStoreInputData, 'status' | 'channel'> & {
+    channel: Option<AccountChannel>
     status: Option<AccountStatus>
   }
 

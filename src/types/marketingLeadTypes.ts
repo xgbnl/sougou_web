@@ -8,12 +8,12 @@ export type MarketingLeadQueryInputData = {
 } & BaseQueryParams
 
 export type MarketingLeadOutputData = BaseOutputData & {
-  createTime: string
+  clueTime: string
   siteName: string
-  customerName: string
-  customerTel: string
-  adSearchWord: string
-  adKeyword: string
+  username: string
+  phone: string
+  searchWord: string
+  keyword: string
 }
 
 export type MarketingLeadImportInputData = {

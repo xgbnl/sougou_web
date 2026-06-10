@@ -30,12 +30,11 @@ import type { MarketingLeadQueryInputData, MarketingLeadOutputData } from '@/typ
 import type { Row, TableHeadCell } from '@components/mui/table/types'
 
 const headCells: TableHeadCell<MarketingLeadOutputData & Row>[] = [
-  { disablePadding: false, id: 'siteName', label: '落地页名称', numeric: false },
-  { disablePadding: false, id: 'customerName', label: '客户姓名', numeric: false },
-  { disablePadding: false, id: 'customerTel', label: '客户手机号', numeric: false },
-  { disablePadding: false, id: 'adSearchWord', label: '搜索词', numeric: false },
-  { disablePadding: false, id: 'adKeyword', label: '关键词', numeric: false },
-  { disablePadding: false, id: 'createTime', label: '线索提交时间', numeric: false }
+  { disablePadding: false, id: 'username', label: '客户姓名', numeric: false },
+  { disablePadding: false, id: 'phone', label: '客户手机号', numeric: false },
+  { disablePadding: false, id: 'searchWord', label: '搜索词', numeric: false },
+  { disablePadding: false, id: 'keyword', label: '关键词', numeric: false },
+  { disablePadding: false, id: 'clueTime', label: '线索提交时间', numeric: false }
 ]
 
 const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactElement => {
@@ -80,7 +79,7 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
         total={total}
         onPageChange={handlePageChange}
         rows={rows}
-        sortBy='createTime'
+        sortBy='clueTime'
         headCells={headCells}
         rowsPerPageOptions={[100, 200]}
         slotProps={{

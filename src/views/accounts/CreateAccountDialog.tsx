@@ -23,16 +23,17 @@ import { createAccount } from '@/actions/accountActions'
 
 // Type Imports
 import type { OpenDialogOnElementClickBaseProps } from '@/components/dialogs/OpenDialogOnElementClick'
-import { AccountStatus, type AccountStoreInputData } from '@/types/accountTypes'
+import { AccountChannel, AccountStatus, type AccountStoreInputData } from '@/types/accountTypes'
 
 type Props = OpenDialogOnElementClickBaseProps & {
   refresh: () => void
 }
 
 const initialData: AccountStoreInputData = {
+  channel: AccountChannel.QI_HU,
   username: '',
   eId: '',
-  userid: 0,
+  userid: undefined,
   secret: '',
   status: AccountStatus.ENABLED
 }
@@ -48,6 +49,9 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
   } = useForm<AccountStoreInputData>({
     defaultValues: initialData
   })
+  const channel = useWatch({ control, name: 'channel' })
+  const status = useWatch({ control, name: 'status' })
+  const isBaidu = channel === AccountChannel.BAIDU
 
   const handleClose = (): void => {
     reset(initialData)
@@ -55,7 +59,8 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
   }
 
   const onSubmit: SubmitHandler<AccountStoreInputData> = async (data): Promise<void> => {
-    const res = await createAccount(data)
+    const inputData = data.channel === AccountChannel.BAIDU ? { ...data, eId: undefined, userid: undefined, secret: undefined } : data
+    const res = await createAccount(inputData)
 
     if (!res.whenFailureRedirect().failed()) {
       toast.success<string>(res.body().msg, {
@@ -93,44 +98,59 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
         <DialogContent>
           <Grid container spacing={6}>
             <Grid size={{ xs: 12 }}>
+              <EnumRadio
+                label='账户渠道'
+                options={[
+                  { label: '360', value: AccountChannel.QI_HU },
+                  { label: '百度', value: AccountChannel.BAIDU }
+                ]}
+                value={channel}
+                onChange={(value): void => setValue('channel', value)}
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
-                label='用户名'
-                placeholder='请输入用户名'
+                label={isBaidu ? '百度账户名' : '用户名'}
+                placeholder={isBaidu ? '请输入百度账户名' : '请输入用户名'}
                 {...register('username', { required: true })}
-                {...(errors.username && { error: true, helperText: '用户名不能为空' })}
+                {...(errors.username && { error: true, helperText: isBaidu ? '百度账户名不能为空' : '用户名不能为空' })}
               />
             </Grid>
-            <Grid size={{ xs: 12 }}>
-              <CustomTextField
-                fullWidth
-                label='点睛id'
-                placeholder='请输入点睛id'
-                {...register('eId', { required: true })}
-                {...(errors.eId && { error: true, helperText: '点睛id不能为空' })}
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <CustomTextField
-                fullWidth
-                type='number'
-                label='UserId'
-                placeholder='请输入UserId'
-                helperText={errors.userid ? 'UserId不能为空' : '用于接口调用'}
-                {...register('userid', { required: true, valueAsNumber: true })}
-                {...(errors.userid && { error: true })}
-              />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <CustomTextField
-                fullWidth
-                label='secret'
-                placeholder='请输入secret'
-                helperText={errors.secret ? 'secret不能为空' : '用于接口调用'}
-                {...register('secret', { required: true })}
-                {...(errors.secret && { error: true })}
-              />
-            </Grid>
+            {!isBaidu ? (
+              <>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    fullWidth
+                    label='点睛id'
+                    placeholder='请输入点睛id'
+                    {...register('eId', { required: !isBaidu })}
+                    {...(errors.eId && { error: true, helperText: '点睛id不能为空' })}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    fullWidth
+                    type='number'
+                    label='UserId'
+                    placeholder='请输入UserId'
+                    helperText={errors.userid ? 'UserId不能为空' : '用于接口调用'}
+                    {...register('userid', { required: !isBaidu, valueAsNumber: true })}
+                    {...(errors.userid && { error: true })}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    fullWidth
+                    label='secret'
+                    placeholder='请输入secret'
+                    helperText={errors.secret ? 'secret不能为空' : '用于接口调用'}
+                    {...register('secret', { required: !isBaidu })}
+                    {...(errors.secret && { error: true })}
+                  />
+                </Grid>
+              </>
+            ) : null}
             <Grid size={{ xs: 12 }}>
               <EnumRadio
                 label='状态'
@@ -138,7 +158,7 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
                   { label: '启用', value: AccountStatus.ENABLED },
                   { label: '禁用', value: AccountStatus.DISABLED }
                 ]}
-                value={useWatch({ control, name: 'status' })}
+                value={status}
                 onChange={(value): void => setValue('status', Number(value))}
               />
             </Grid>

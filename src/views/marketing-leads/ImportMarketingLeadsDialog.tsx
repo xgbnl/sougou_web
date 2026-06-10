@@ -45,6 +45,8 @@ const ImportMarketingLeadsDialog = ({ open, setOpen, closeAfterTransition = fals
     () => accounts.filter(account => selectedIds.includes(Number(account.id))),
     [accounts, selectedIds]
   )
+  const accountLabel = (account: AccountOutputData): string =>
+    [account.channel.label, account.username, account.eId, account.userid].filter(Boolean).join(' / ')
 
   useEffect(() => {
     const loadAccounts = async (): Promise<void> => {
@@ -149,7 +151,7 @@ const ImportMarketingLeadsDialog = ({ open, setOpen, closeAfterTransition = fals
               options={accounts}
               value={selectedAccounts}
               isOptionEqualToValue={(option, value): boolean => option.id === value.id}
-              getOptionLabel={(option): string => `${option.username} / ${option.eId} / ${option.userid}`}
+              getOptionLabel={accountLabel}
               onChange={(_, value): void => {
                 setSelectedIds(value.map(account => Number(account.id)))
               }}
@@ -159,7 +161,7 @@ const ImportMarketingLeadsDialog = ({ open, setOpen, closeAfterTransition = fals
                 return (
                   <li key={key} {...optionProps}>
                     <Checkbox checked={selected} sx={{ mr: 2 }} />
-                    {`${option.username} / ${option.eId} / ${option.userid}`}
+                    {accountLabel(option)}
                   </li>
                 )
               }}

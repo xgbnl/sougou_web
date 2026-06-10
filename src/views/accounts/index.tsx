@@ -26,6 +26,7 @@ import type { Row, TableHeadCell } from '@components/mui/table/types'
 
 const headCells: TableHeadCell<AccountOutputData & Row>[] = [
   { disablePadding: false, id: 'id', label: 'ID', numeric: false },
+  { disablePadding: false, id: 'channel', label: '渠道', numeric: false, format: row => row.channel.label },
   { disablePadding: false, id: 'username', label: '用户名', numeric: false },
   { disablePadding: false, id: 'eId', label: '点睛id', numeric: false },
   { disablePadding: false, id: 'userid', label: 'UserId', numeric: false },

@@ -41,6 +41,8 @@ const AssignAccountsDialog = ({ open, setOpen, closeAfterTransition = false, use
     () => accounts.filter(account => selectedIds.includes(Number(account.id))),
     [accounts, selectedIds]
   )
+  const accountLabel = (account: UserAssignableAccount): string =>
+    [account.channel.label, account.username, account.eId, account.userid].filter(Boolean).join(' / ')
 
   useEffect(() => {
     const loadAccounts = async (): Promise<void> => {
@@ -111,7 +113,7 @@ const AssignAccountsDialog = ({ open, setOpen, closeAfterTransition = false, use
           options={accounts}
           value={selectedAccounts}
           isOptionEqualToValue={(option, value): boolean => option.id === value.id}
-          getOptionLabel={(option): string => `${option.username} / ${option.eId} / ${option.userid}`}
+          getOptionLabel={accountLabel}
           onChange={(_, value): void => {
             setSelectedIds(value.map(account => Number(account.id)))
           }}
@@ -121,7 +123,7 @@ const AssignAccountsDialog = ({ open, setOpen, closeAfterTransition = false, use
             return (
               <li key={key} {...optionProps}>
                 <Checkbox checked={selected} sx={{ mr: 2 }} />
-                {`${option.username} / ${option.eId} / ${option.userid}`}
+                {accountLabel(option)}
               </li>
             )
           }}

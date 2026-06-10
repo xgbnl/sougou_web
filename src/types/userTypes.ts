@@ -1,5 +1,7 @@
 // Type Imports
 import type { BaseOutputData } from './entityTypes'
+import type { AccountChannel } from './accountTypes'
+import type { Option } from './option'
 
 export type UserOutputData = {
   description: string
@@ -11,9 +13,10 @@ export type UserStoreOutputData = Pick<UserOutputData, 'description' | 'username
 
 export type UserAssignableAccount = {
   id: number
+  channel: Option<AccountChannel>
   username: string
-  eId: string
-  userid: number
+  eId?: string
+  userid?: number
 }
 
 export type UserAccountsOutputData = {
