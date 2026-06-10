@@ -132,7 +132,7 @@ const ImportMarketingLeadsDialog = ({ open, setOpen, closeAfterTransition = fals
               fullWidth
               type='file'
               label='导入文件'
-              helperText='请上传表头为：落地页名称、客户姓名、客户手机号、搜索词、关键词 的 Excel 文件'
+              helperText='请上传表头为：客户姓名、客户手机号、搜索词、关键词 的 Excel 文件'
               onChange={(event: ChangeEvent<HTMLInputElement>): void => {
                 setFile(event.target.files?.[0] ?? null)
               }}
