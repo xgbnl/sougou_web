@@ -1,5 +1,5 @@
 // Lib Imports
-import { get, post, patch } from '@/libs/http/react'
+import { get, post, patch, destroy } from '@/libs/http/react'
 import type { ResponseInterface } from '@/libs/http/types'
 
 // Type Imports
@@ -69,5 +69,16 @@ export const resetUserPassword = async ({
   return patch('users/:id', {
     pathVariables: { id },
     body: { password, passwordConfirmation }
+  })
+}
+
+/**
+ * 删除用户
+ * @param id
+ * @returns
+ */
+export const deleteUser = async (id: number | string): Promise<ResponseInterface<null>> => {
+  return destroy('users/:id', {
+    pathVariables: { id }
   })
 }
