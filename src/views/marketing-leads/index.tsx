@@ -11,6 +11,8 @@ import { useSession } from 'next-auth/react'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
+import Chip from '@mui/material/Chip'
+import Typography from '@mui/material/Typography'
 
 // Third-party Imports
 import { toast } from 'react-toastify'
@@ -32,7 +34,25 @@ import type { Row, TableHeadCell } from '@components/mui/table/types'
 const headCells: TableHeadCell<MarketingLeadOutputData & Row>[] = [
   { disablePadding: false, id: 'username', label: '客户姓名', numeric: false },
   { disablePadding: false, id: 'phone', label: '客户手机号', numeric: false },
-  { disablePadding: false, id: 'searchWord', label: '搜索词', numeric: false },
+  {
+    disablePadding: false,
+    id: 'searchWord',
+    label: '搜索词',
+    numeric: false,
+    format: row => {
+      const searchWord = row.searchWord
+
+      if (!searchWord) {
+        return ''
+      }
+
+      return (
+        <Typography noWrap title={searchWord} sx={{ maxWidth: 220 }}>
+          {searchWord}
+        </Typography>
+      )
+    }
+  },
   { disablePadding: false, id: 'keyword', label: '关键词', numeric: false },
   { disablePadding: false, id: 'clueTime', label: '线索提交时间', numeric: false }
 ]
@@ -73,6 +93,29 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
     }
   }
 
+  const clueChannelCell: TableHeadCell<MarketingLeadOutputData> = {
+    disablePadding: false,
+    id: 'channel',
+    label: '线索来源',
+    numeric: false,
+    format(row) {
+      if (!canImport) {
+        return ''
+      }
+
+      return (
+        <Chip
+          label={row.channel?.label}
+          variant='tonal'
+          size='small'
+          color={row.channel?.value === 'baidu' ? 'primary' : 'success'}
+        />
+      )
+    }
+  }
+
+  const headCellsList = canImport ? [...headCells, clueChannelCell] : headCells
+
   return (
     <Card>
       <MuiTable
@@ -80,7 +123,7 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
         onPageChange={handlePageChange}
         rows={rows}
         sortBy='clueTime'
-        headCells={headCells}
+        headCells={headCellsList}
         rowsPerPageOptions={[100, 200]}
         slotProps={{
           slot: (): ReactElement => (

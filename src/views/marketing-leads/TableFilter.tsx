@@ -11,6 +11,9 @@ import Grid from '@mui/material/Grid'
 // Component Imports
 import DateRange from '@components/mui/date-range'
 
+// Util Imports
+import { serializeDate } from '@/utils/carbon'
+
 // Type Imports
 import type { QueryHandler } from '@/types/queryTypes'
 import type { MarketingLeadQueryInputData } from '@/types/marketingLeadTypes'
@@ -21,14 +24,19 @@ type Props = {
 }
 
 const TableFilter = ({ query, queryHandler }: Props): ReactElement => {
-  const [dateRange, setDateRange] = useState<Pick<MarketingLeadQueryInputData, 'startDate' | 'endDate'>>({})
+  const [dateRange, setDateRange] = useState<{ start: Date; end: Date }>({
+    start: new Date(),
+    end: new Date()
+  })
 
   return (
     <Grid container spacing={4}>
       <Grid spacing={3} alignContent='flex-end'>
         <DateRange
-          onChange={(_, [startDate, endDate]): void => {
-            setDateRange({ startDate, endDate })
+          start={dateRange.start}
+          end={dateRange.start}
+          onChange={(date): void => {
+            setDateRange(date)
           }}
         />
       </Grid>
@@ -37,7 +45,14 @@ const TableFilter = ({ query, queryHandler }: Props): ReactElement => {
           variant='contained'
           color='primary'
           onClick={(): void => {
-            queryHandler({ ...query, page: 1, ...dateRange })
+            queryHandler({
+              ...query,
+              page: 1,
+              ...{
+                startDate: serializeDate(dateRange.start),
+                endDate: serializeDate(dateRange.end)
+              }
+            })
           }}
         >
           搜索

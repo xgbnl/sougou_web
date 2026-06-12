@@ -1,6 +1,7 @@
 // Type Imports
 import type { BaseQueryParams } from './queryTypes'
 import type { BaseOutputData } from './entityTypes'
+import type { Option } from './option'
 
 export type MarketingLeadQueryInputData = {
   startDate?: string
@@ -14,6 +15,7 @@ export type MarketingLeadOutputData = BaseOutputData & {
   phone: string
   searchWord: string
   keyword: string
+  channel?: Option<'baidu' | 'qihu'>
 }
 
 export type MarketingLeadImportInputData = {
