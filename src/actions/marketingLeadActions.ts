@@ -1,6 +1,6 @@
 // Lib Imports
 import { getSession } from 'next-auth/react'
-import { get, post } from '@/libs/http/react'
+import { get, post, destroy } from '@/libs/http/react'
 import type { ResponseInterface } from '@/libs/http/types'
 
 // Type Imports
@@ -46,6 +46,17 @@ export const importMarketingLeads = async ({
   accountIds.forEach(id => formData.append('accountIds[]', String(id)))
 
   return post('marketing-leads/import', { body: formData })
+}
+
+/**
+ * 删除线索
+ * @param id
+ * @returns
+ */
+export const deleteMarketingLead = async (id: number | string): Promise<ResponseInterface<null>> => {
+  return destroy('marketing-leads/:id', {
+    pathVariables: { id }
+  })
 }
 
 /**

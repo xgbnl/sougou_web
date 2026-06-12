@@ -13,6 +13,9 @@ import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
+import Stack from '@mui/material/Stack'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 
 // Third-party Imports
 import { toast } from 'react-toastify'
@@ -22,6 +25,7 @@ import MuiTable from '@components/mui/table'
 import TableFilter from './TableFilter'
 import OpenDialogOnElementClick from '@/components/dialogs/OpenDialogOnElementClick'
 import ImportMarketingLeadsDialog from './ImportMarketingLeadsDialog'
+import DeleteMarketingLeadDialog from './DeleteMarketingLeadDialog'
 
 // Action Imports
 import { exportMarketingLeads, fetchMarketingLeadList } from '@/actions/marketingLeadActions'
@@ -93,7 +97,7 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
     }
   }
 
-  const clueChannelCell: TableHeadCell<MarketingLeadOutputData> = {
+  const clueChannelCell: TableHeadCell<MarketingLeadOutputData & Row> = {
     disablePadding: false,
     id: 'channel',
     label: '线索来源',
@@ -114,7 +118,40 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
     }
   }
 
-  const headCellsList = canImport ? [...headCells, clueChannelCell] : headCells
+  const actionsCell: TableHeadCell<MarketingLeadOutputData & Row> = {
+    disablePadding: false,
+    id: 'actions',
+    label: '操作',
+    numeric: false,
+    action: (row): ReactElement => (
+      <Stack direction='row' spacing={2}>
+        <OpenDialogOnElementClick
+          element={IconButton}
+          elementProps={{
+            size: 'small',
+            color: 'error',
+            children: (
+              <Tooltip title='删除'>
+                <i className='tabler-trash' />
+              </Tooltip>
+            )
+          }}
+          dialog={DeleteMarketingLeadDialog}
+          dialogProps={{
+            closeAfterTransition: true,
+            leadId: row.id,
+            username: row.username,
+            phone: row.phone,
+            refresh: (): void => {
+              void queryHandler(query)
+            }
+          }}
+        />
+      </Stack>
+    )
+  }
+
+  const headCellsList = canImport ? [...headCells, clueChannelCell, actionsCell] : headCells
 
   return (
     <Card>
