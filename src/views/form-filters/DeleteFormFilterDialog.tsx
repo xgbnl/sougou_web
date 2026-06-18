@@ -26,14 +26,7 @@ type Props = OpenDialogOnElementClickBaseProps & {
   refresh: () => void
 }
 
-const DeleteFormFilterDialog = ({
-  open,
-  setOpen,
-  closeAfterTransition = false,
-  filterId,
-  value,
-  refresh
-}: Props) => {
+const DeleteFormFilterDialog = ({ open, setOpen, closeAfterTransition = false, filterId, value, refresh }: Props) => {
   const handleClose = (): void => {
     setOpen(false)
   }

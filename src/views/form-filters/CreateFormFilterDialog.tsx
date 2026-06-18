@@ -45,6 +45,7 @@ const CreateFormFilterDialog = ({ open, setOpen, closeAfterTransition = false, r
   } = useForm<FormFilterStoreInputData>({
     defaultValues: initialData
   })
+
   const type = useWatch({ control, name: 'type' })
 
   const handleClose = (): void => {
