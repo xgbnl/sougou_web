@@ -45,6 +45,7 @@ const ImportMarketingLeadsDialog = ({ open, setOpen, closeAfterTransition = fals
     () => accounts.filter(account => selectedIds.includes(Number(account.id))),
     [accounts, selectedIds]
   )
+  
   const accountLabel = (account: AccountOutputData): string =>
     [account.channel.label, account.username, account.eId, account.userid].filter(Boolean).join(' / ')
 

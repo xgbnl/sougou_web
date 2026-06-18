@@ -93,6 +93,19 @@ const verticalMenuData = (
           permissions: ['admin', 'viewer']
         }
       ]
+    },
+    {
+      isSection: true,
+      label: dictionary['navigation'].systemSettings,
+      permissions: ['admin'],
+      children: [
+        {
+          label: dictionary['navigation'].formFilter,
+          href: `/${dictionary['locale']}/system-settings/form-filters`,
+          icon: 'tabler-filter',
+          permissions: ['admin']
+        }
+      ]
     }
   ]
 
