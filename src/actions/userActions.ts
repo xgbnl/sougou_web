@@ -73,6 +73,17 @@ export const resetUserPassword = async ({
 }
 
 /**
+ * 清空用户名下线索
+ * @param id
+ * @returns
+ */
+export const clearUserMarketingLeads = async (id: number | string): Promise<ResponseInterface<null>> => {
+  return patch('users/:id/marketing-leads/clear', {
+    pathVariables: { id }
+  })
+}
+
+/**
  * 删除用户
  * @param id
  * @returns

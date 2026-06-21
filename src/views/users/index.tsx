@@ -17,6 +17,7 @@ import CreateUserDialog from './CreateUserDialog'
 import AssignAccountsDialog from './AssignAccountsDialog'
 import ResetPasswordDialog from './ResetPasswordDialog'
 import DeleteUserDialog from './DeleteUserDialog'
+import ClearMarketingLeadsDialog from './ClearMarketingLeadsDialog'
 
 // Action Imports
 import { fetchUserList } from '@/actions/userActions'
@@ -81,6 +82,24 @@ const UsersPage = (props: OutPutPort<UserOutputData>): ReactElement => {
             dialogProps={{
               closeAfterTransition: true,
               userId: row.id
+            }}
+          />
+          <OpenDialogOnElementClick
+            element={Button}
+            elementProps={{
+              size: 'small',
+              color: 'warning',
+              children: '清空线索',
+              startIcon: <i className='tabler-eraser' />
+            }}
+            dialog={ClearMarketingLeadsDialog}
+            dialogProps={{
+              closeAfterTransition: true,
+              userId: row.id,
+              username: row.username,
+              refresh: (): void => {
+                void queryHandler(query.page, query.perPage)
+              }
             }}
           />
           <OpenDialogOnElementClick
