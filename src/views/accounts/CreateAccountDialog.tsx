@@ -51,7 +51,7 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
   })
   const channel = useWatch({ control, name: 'channel' })
   const status = useWatch({ control, name: 'status' })
-  const isBaidu = channel === AccountChannel.BAIDU
+  const isSimpleAccount = channel === AccountChannel.BAIDU || channel === AccountChannel.SOUGOU
 
   const handleClose = (): void => {
     reset(initialData)
@@ -59,7 +59,7 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
   }
 
   const onSubmit: SubmitHandler<AccountStoreInputData> = async (data): Promise<void> => {
-    const inputData = data.channel === AccountChannel.BAIDU ? { ...data, eId: undefined, userid: undefined, secret: undefined } : data
+    const inputData = isSimpleAccount ? { ...data, eId: undefined, userid: undefined, secret: undefined } : data
     const res = await createAccount(inputData)
 
     if (!res.whenFailureRedirect().failed()) {
@@ -102,7 +102,8 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
                 label='账户渠道'
                 options={[
                   { label: '360', value: AccountChannel.QI_HU },
-                  { label: '百度', value: AccountChannel.BAIDU }
+                  { label: '百度', value: AccountChannel.BAIDU },
+                  { label: '搜狗', value: AccountChannel.SOUGOU }
                 ]}
                 value={channel}
                 onChange={(value): void => setValue('channel', value)}
@@ -111,20 +112,23 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
             <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
-                label={isBaidu ? '百度账户名' : '用户名'}
-                placeholder={isBaidu ? '请输入百度账户名' : '请输入用户名'}
+                label={isSimpleAccount ? '账户名' : '用户名'}
+                placeholder={isSimpleAccount ? '请输入账户名' : '请输入用户名'}
                 {...register('username', { required: true })}
-                {...(errors.username && { error: true, helperText: isBaidu ? '百度账户名不能为空' : '用户名不能为空' })}
+                {...(errors.username && {
+                  error: true,
+                  helperText: isSimpleAccount ? '账户名不能为空' : '用户名不能为空'
+                })}
               />
             </Grid>
-            {!isBaidu ? (
+            {!isSimpleAccount ? (
               <>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
                     fullWidth
                     label='点睛id'
                     placeholder='请输入点睛id'
-                    {...register('eId', { required: !isBaidu })}
+                    {...register('eId', { required: !isSimpleAccount })}
                     {...(errors.eId && { error: true, helperText: '点睛id不能为空' })}
                   />
                 </Grid>
@@ -135,7 +139,7 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
                     label='UserId'
                     placeholder='请输入UserId'
                     helperText={errors.userid ? 'UserId不能为空' : '用于接口调用'}
-                    {...register('userid', { required: !isBaidu, valueAsNumber: true })}
+                    {...register('userid', { required: !isSimpleAccount, valueAsNumber: true })}
                     {...(errors.userid && { error: true })}
                   />
                 </Grid>
@@ -145,7 +149,7 @@ const CreateAccountDialog = ({ open, setOpen, closeAfterTransition = false, refr
                     label='secret'
                     placeholder='请输入secret'
                     helperText={errors.secret ? 'secret不能为空' : '用于接口调用'}
-                    {...register('secret', { required: !isBaidu })}
+                    {...register('secret', { required: !isSimpleAccount })}
                     {...(errors.secret && { error: true })}
                   />
                 </Grid>

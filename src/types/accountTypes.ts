@@ -10,7 +10,8 @@ export const enum AccountStatus {
 
 export const enum AccountChannel {
   QI_HU = 'qihu',
-  BAIDU = 'baidu'
+  BAIDU = 'baidu',
+  SOUGOU = 'sougou'
 }
 
 export type AccountStoreInputData = {

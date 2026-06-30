@@ -112,7 +112,7 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
           label={row.channel?.label}
           variant='tonal'
           size='small'
-          color={row.channel?.value === 'baidu' ? 'primary' : 'success'}
+          color={row.channel?.value === 'baidu' ? 'primary' : row.channel?.value === 'sougou' ? 'warning' : 'success'}
         />
       )
     }

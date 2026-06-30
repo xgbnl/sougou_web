@@ -15,7 +15,7 @@ export type MarketingLeadOutputData = BaseOutputData & {
   phone: string
   searchWord: string
   keyword: string
-  channel?: Option<'baidu' | 'qihu'>
+  channel?: Option<'baidu' | 'qihu' | 'sougou'>
 }
 
 export type MarketingLeadImportInputData = {
