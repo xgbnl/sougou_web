@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 
 // NextAuth Imports
@@ -69,8 +69,13 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
   const [downloadProgress, setDownloadProgress] = useState<number>(0)
   const [downloading, setDownloading] = useState<boolean>(false)
   const canImport = session?.user?.role === 'admin'
+  const queryRef = useRef(query)
 
-  const queryHandler: QueryHandler<MarketingLeadQueryInputData> = async (params): Promise<void> => {
+  useEffect(() => {
+    queryRef.current = query
+  }, [query])
+
+  const queryHandler = useCallback<QueryHandler<MarketingLeadQueryInputData>>(async (params): Promise<void> => {
     const res = await fetchMarketingLeadList(params)
 
     if (!res.whenFailureRedirect().failed()) {
@@ -78,7 +83,15 @@ const MarketingLeadsPage = (props: OutPutPort<MarketingLeadOutputData>): ReactEl
       setTotal(res.getContent().total)
       setQuery(params)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    const refreshInterval = window.setInterval(() => {
+      void queryHandler(queryRef.current)
+    }, 3000)
+
+    return () => window.clearInterval(refreshInterval)
+  }, [queryHandler])
 
   const handlePageChange = (page: number, perPage: number): void => {
     queryHandler({ ...query, page, perPage })
